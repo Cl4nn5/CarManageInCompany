@@ -1,0 +1,15 @@
+CAR_MANAGEMENT_IN_COMPANY/CAR_MANAGEMENT_IN_COMPANY/Models/Config.cs
+
+# C#
+*.suo
+*.dll
+*.pdb
+*.cache
+*.xml
+
+Web.config
+
+# 아직 미진행
+CAR_MANAGEMENT_IN_COMPANY_CORE/
+
+*.config
