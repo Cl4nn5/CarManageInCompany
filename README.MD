@@ -14,19 +14,22 @@
   => 개인적 희망사항 조금씩 얹기
 * ***비상업적 용도이므로 최대한 스스로 만들어보기***
 * **백엔드 서버와 프론트 서버를 분리하여 만들어보기**
-* ㅇㅇ
 
 ## 추후 업그레이드 가능한 방향
 * 데이터 시각화     
   > e.g. Chart.js
-* Convert for Typescript
+* Conver
+* Typescript
 
 ## 기술 스택
-|영역   |스택     |
-|---    |---      |
-|FE     |vue.js |
-|       |javascript|
-|BE     |C# MVC|
-|       |.net 4.8|
-|DB     |SQL Server|
-|       |MS-SQL|
+|Position |Tech       |Version & Memo |
+|:---:    |---:       |:---           |
+|FE       |**vue2**   |**CLI v5.0.4** |
+|         |javascript |**ES6**, Jquery|
+|BE       |C# MVC     | .net 4.8      |
+|DB       |MS-SQL     | 2019          |
+
+
+## TODOs
+* Login 시도시 파라메터 넣기  
+* BEUrl 정보 root & 글로벌하게 사용하기
