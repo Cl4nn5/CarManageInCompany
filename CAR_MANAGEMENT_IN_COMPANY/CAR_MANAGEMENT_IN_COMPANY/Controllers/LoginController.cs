@@ -12,8 +12,8 @@ namespace CAR_MANAGEMENT_IN_COMPANY.Controllers
         //: ApiController
 
     {
-        [System.Web.Mvc.HttpGet]
-        public JsonResult getList()
+        [System.Web.Mvc.HttpPost]
+        public JsonResult GetList()
         {
             // 가짜 리스트 조회
             List<string> list = new List<string>();
@@ -22,7 +22,19 @@ namespace CAR_MANAGEMENT_IN_COMPANY.Controllers
             {
                 list.Add(temp);
             }
-            return Json200(list);
+            return JsonPost200(list);
+        }
+
+        public JsonResult GetDbList()
+        {
+            // DB 접속
+            IsConnSql();
+            // 쿼리
+            
+
+            var list = new List<string>();
+
+            return JsonGet200(list);
         }
     }
 }

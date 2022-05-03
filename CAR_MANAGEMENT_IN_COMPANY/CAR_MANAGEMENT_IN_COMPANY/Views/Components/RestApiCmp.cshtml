@@ -1,0 +1,22 @@
+﻿<template type="text/x-template" id="tpl-rest-info">
+    <div>
+        <h3>Get</h3>
+        <h3>Get:{id}</h3>
+        <h3>Post</h3>
+        <h3>Put</h3>
+        <h3>Delete</h3>
+    </div>
+</template>
+
+<script>
+    let cmpRestInfo = Vue.component('cmp-rest-info', {
+        template:"#tpl-rest-info",
+        created() {
+            console.log("partial View 호출 성공");
+        }
+    })
+</script>
+
+<style>
+
+</style>
