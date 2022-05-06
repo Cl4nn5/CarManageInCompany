@@ -2,15 +2,21 @@
   <nav id="topMenuContainer">
     <section class="hamburgerSection">
       <div id="toggle" ref="toggle" @click="toggleHamburger"></div>
-      <ul v-if="isToggle">
-        <li v-for="(item, idx) in toggleList" :key="idx">
+      <ul v-if="isToggle" ref="toggleSlideList" id="toggleSlideList">
+        <li v-once v-for="(item, idx) in toggleList" :key="idx">
           <span>{{ item }}</span>
         </li>
       </ul>
     </section>
     <section class="menuSection">
-      <li>
-        <ul v-for="item in menuList" :key="item">
+      <li class="menu_li" ref="menuLi">
+        <ul
+          v-once
+          v-for="(item, idx) in menuList"
+          :key="item"
+          ref="menuUlList"
+          @click="clickMenu(idx)"
+        >
           <strong>{{ item }}</strong>
         </ul>
       </li>
@@ -18,6 +24,7 @@
     <section class="accountSection">
       <button>account Info</button>
     </section>
+    <!-- 2nd line -->
   </nav>
 </template>
 
@@ -34,21 +41,30 @@ export default Vue.extend({
     };
   },
   methods: {
+    //#region css Methods
     toggleHamburger() {
-      this.$nextTick(() => {
-        const toggle = this.$refs.toggle as HTMLElement;
-        toggle?.classList.toggle("active");
-        this.isToggle = !this.isToggle;
-      });
+      const toggle = this.$refs.toggle as HTMLElement;
+      toggle?.classList.toggle("active");
+      this.isToggle = !this.isToggle;
     },
     getToggleList(): string[] {
       let list = ["Home", "About", "FAQ"];
       return list;
     },
     getMenuList(): string[] {
-      let list = ["Introduce", "History", "Map"];
+      let list = ["Introduce", "History", "Map", "Non-Menu"];
       return list;
     },
+    clickMenu(idx = 0): void {
+      console.log(idx);
+    },
+    divisionMenuList(): void {
+      const menuUlList = this.$refs.menuUlList as HTMLElement[];
+      menuUlList.forEach((e: HTMLElement) => {
+        e.style.width = `${100 / menuUlList.length}%`;
+      });
+    },
+    //#endregion css Methods
   },
   created() {
     this.toggleList = this.getToggleList();
@@ -59,6 +75,12 @@ export default Vue.extend({
     // toggle.onclick = function () {
     //   toggle?.classList.toggle("active");
     // };
+
+    //#region css
+    this.$nextTick(() => {
+      this.divisionMenuList();
+    });
+    //#endregion
   },
 });
 </script>
@@ -71,51 +93,39 @@ $menu-ul-sizes: 30%, 20%, 25%;
 $toggleColor: #fff;
 $toggleOnMenu: #37a6ff;
 $toggleOffMenu: #f7226a;
-// #endregion variable
 
-// #region css
+$topMenuHeight: 7.5vh;
+
+$hamUlHeight: 50px;
+
 .f-center-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+// #endregion variable
+
+// #region topMenu css
 #topMenuContainer {
   display: flex;
   justify-content: space-between;
   background-image: linear-gradient(to left bottom, #d0ecff 0%, #b0c8d8 100%);
   position: fixed;
   width: 100%;
-  height: 7.5vh;
+  height: $topMenuHeight;
   top: 0;
   left: 0;
 
-  section:where(:nth-child(1), :nth-child(3)) {
+  section {
+    position: relative;
     @extend .f-center-center;
     width: 100%;
+  }
+
+  section:where(:nth-child(1), :nth-child(3)) {
     flex: 0 0 10%;
   }
-  section:nth-child(2) {
-    @extend .f-center-center;
-    width: 100%;
-    flex: 0 0 80%;
-    background-image: linear-gradient(to left bottom, #e8f2e2 0%, #b9d9a3 100%);
-
-    li {
-      width: 100%;
-      display: flex;
-      justify-content: start;
-      gap: $li-gap;
-      padding: 0 $li-gap;
-
-      @each $size in $menu-ul-sizes {
-        ul {
-          width: $size;
-        }
-      }
-    }
-  }
-  // #endregion css
 
   // #region hamburger toggle
   #toggle {
@@ -159,5 +169,58 @@ $toggleOffMenu: #f7226a;
     }
   }
   // #endregion hamburger toggle
+
+  // #region toggleSlideList
+  #toggleSlideList {
+    background-image: linear-gradient(150deg, #b7d0e1 20%, #bec0e7 80%);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    height: calc($hamUlHeight * 4);
+    top: $topMenuHeight;
+    padding: 10px 0;
+    gap: 10px;
+
+    & > li {
+      height: $hamUlHeight;
+      @extend .f-center-center;
+      cursor: pointer;
+      border: 1px solid slateblue;
+      border-image: linear-gradient(
+          to right bottom,
+          slateblue 30%,
+          gray 70%,
+          #902d99 100%
+        )
+        0.5;
+      border-radius: 15px;
+    }
+  }
+  // #endregion
+
+  // #region menuList
+  .menuSection {
+    @extend .f-center-center;
+    width: 100%;
+    flex: 0 0 80%;
+    background-image: linear-gradient(to left bottom, #e8f2e2 0%, #b9d9a3 100%);
+
+    & > li {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: $li-gap;
+
+      // ul {
+      //   width: calc(100% / length($list: $menu-ul-sizes));
+      // }
+    }
+  }
+  // #endregion
 }
+// #endregion css
 </style>
