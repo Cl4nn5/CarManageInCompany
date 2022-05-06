@@ -7,7 +7,12 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "login",
+    name: "homeBforeLogin",
+    component: LoginView,
+  },
+  {
+    path: "/:isLogin",
+    name: "homeBforeLogin",
     component: LoginView,
   },
   {

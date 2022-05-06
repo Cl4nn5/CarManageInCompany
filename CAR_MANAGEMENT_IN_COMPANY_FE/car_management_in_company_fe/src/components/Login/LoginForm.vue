@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import axios from "axios";
+//import axios from "axios";
 
 export default Vue.extend({
   name: "Login",
@@ -67,12 +67,18 @@ export default Vue.extend({
 
       let res = false;
 
-      await fetch(`https://${this.backendUrl}/Common/DbLogin`)
+      await fetch(`https://${this.backendUrl}/Common/DbLogin`, {
+        method: "POST",
+      })
         .then((res) => (res.status === 200 ? res.json() : null))
         .then((json) => {
-          this.user.id = json.data.id;
-          console.log(json);
-          return true;
+          if (json === null) {
+            return false;
+          } else {
+            this.user.id = json.data.id;
+            console.log(json);
+            return true;
+          }
         })
         .catch((e) => {
           console.log(e);
