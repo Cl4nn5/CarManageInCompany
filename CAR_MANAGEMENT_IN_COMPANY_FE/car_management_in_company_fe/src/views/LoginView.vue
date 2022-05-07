@@ -30,10 +30,6 @@ export default Vue.extend({
   background-image: linear-gradient(315deg, #a1c4fdc2 0%, #c2e9fb4f 70%),
     linear-gradient(45deg, #a18cd1b4 50%, #fbc2eba6 70%);
   box-shadow: 1;
-
-  article:nth-child(1) {
-    width: 50%;
-    max-width: 50%;
-  }
+  padding: 30px 0;
 }
 </style>

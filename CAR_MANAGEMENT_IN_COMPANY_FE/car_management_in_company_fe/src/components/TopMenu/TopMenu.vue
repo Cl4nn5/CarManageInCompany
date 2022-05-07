@@ -22,9 +22,11 @@
       </li>
     </section>
     <section class="accountSection">
-      <button>account Info</button>
+      <div v-if="isLogin">
+        <span>로그인 중입니다</span>
+      </div>
+      <button v-else @click="callLoginForm()">Call Login Form</button>
     </section>
-    <!-- 2nd line -->
   </nav>
 </template>
 
@@ -32,6 +34,12 @@
 import Vue from "vue";
 
 export default Vue.extend({
+  props: {
+    isLogin: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       tempTitle: "TopMenuContainer",
@@ -65,6 +73,12 @@ export default Vue.extend({
       });
     },
     //#endregion css Methods
+
+    //#region Logic
+    callLoginForm() {
+      this.$bus.$emit("show:loginForm", true);
+    },
+    //#endregion
   },
   created() {
     this.toggleList = this.getToggleList();
@@ -77,9 +91,9 @@ export default Vue.extend({
     // };
 
     //#region css
-    this.$nextTick(() => {
-      this.divisionMenuList();
-    });
+    // this.$nextTick(() => {
+    //   });
+    this.divisionMenuList();
     //#endregion
   },
 });
@@ -94,7 +108,7 @@ $toggleColor: #fff;
 $toggleOnMenu: #37a6ff;
 $toggleOffMenu: #f7226a;
 
-$topMenuHeight: 7.5vh;
+$topMenuHeight: var(--top-height);
 
 $hamUlHeight: 50px;
 
@@ -116,6 +130,7 @@ $hamUlHeight: 50px;
   height: $topMenuHeight;
   top: 0;
   left: 0;
+  z-index: 5000;
 
   section {
     position: relative;

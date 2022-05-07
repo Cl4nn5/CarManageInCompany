@@ -1,6 +1,6 @@
 <template>
-  <article class="loginContainer">
-    <section class="loginWrap">
+  <article class="loginContainer" v-if="isShow">
+    <!-- <section class="loginWrap">
       <h3 class="loginForm header">
         <label for="inputId">{{ title }}</label>
       </h3>
@@ -26,16 +26,41 @@
           />
         </div>
       </div>
+    </section> -->
+    <section class="blueBg">
+      <div class="box signin">
+        <h2>로그인 영역</h2>
+        <button @click="sign(true)" ref="signinBtn" class="signinBtn">
+          Sign in
+        </button>
+      </div>
+      <div class="box signup">
+        <h2>회원가입 영역</h2>
+        <button @click="sign(false)" ref="signupBtn" class="signupBtn">
+          Sign up
+        </button>
+      </div>
     </section>
+    <section class="formBox" ref="formBox"></section>
   </article>
 </template>
 
 <script lang="ts">
+class Sign {
+  type: string;
+
+  protected types = ["in", "up"];
+
+  constructor(isHaveAccount: boolean) {
+    this.type = `sign${this.types[+isHaveAccount]}`;
+  }
+}
+
 import Vue from "vue";
 //import axios from "axios";
 
 export default Vue.extend({
-  name: "Login",
+  name: "LoginForm",
   props: {
     title: {
       type: String,
@@ -45,6 +70,7 @@ export default Vue.extend({
   data() {
     return {
       temp: "로그인 공간",
+      isShow: false,
       user: {
         id: "",
         pwd: "",
@@ -59,6 +85,9 @@ export default Vue.extend({
     },
   },
   methods: {
+    //#region Css
+    //#endregion
+    //#region Logic
     async login() {
       // axios.post(`https://${this.backendUrl}/Common/DbLogin`, {
       //   id: this.user.id ?? null,
@@ -87,84 +116,133 @@ export default Vue.extend({
 
       return res;
     },
+    sign(isHaveAccount: boolean) {
+      const signinBtn = this.$refs.signinBtn as Element;
+      const signupBtn = this.$refs.signupBtn as Element;
+      const formBox = this.$refs.formBox as Element;
+
+      let signCondition = new Sign(isHaveAccount);
+
+      console.log(signCondition);
+      if (isHaveAccount) {
+        formBox.classList.remove("active");
+      } else {
+        formBox.classList.add("active");
+      }
+    },
+    //#endregion
   },
   created() {
     console.log("LoginComponent");
     this.login();
+
+    this.$bus.$on("show:loginForm", (isShowLoginForm: boolean) => {
+      this.isShow = isShowLoginForm;
+    });
+
+    // Test Mode
+    if (this.$root.$data.isTestMode === true) {
+      this.isShow = true;
+    }
   },
+  // mounted() {
+
+  // },
 });
 </script>
 
 <style lang="scss" scoped>
-input {
-  border: 1px solid black;
-  border-radius: 0 5px 5px 0;
-  box-sizing: border-box;
-}
-label {
-  box-sizing: border-box;
-}
+// #region Variable
+$container-width: 800px;
+$container-height: 500px;
+$color-signup: rgb(135, 206, 235);
+$color-signin: salmon;
 
-.loginContainer {
+$formBoxBorderRadiusList-default: 15% 5% 5% 15%;
+$formBoxBorderRadiusList-active: 5% 15% 15% 5%;
+
+.f-center-center {
   display: flex;
-  width: 100%;
   justify-content: center;
+  align-items: center;
+}
 
-  .loginWrap {
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    width: 40%;
+// #endregion
+
+// #region Common
+.loginContainer {
+  position: relative;
+  width: $container-width;
+  height: $container-height;
+  margin: 30px;
+
+  h2 {
+    font-weight: 900;
   }
 
-  .loginForm {
-    &.header {
-      color: red;
-      flex: 1 1 30%;
-    }
+  // #region signUp
+  & > .blueBg {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    height: calc($container-height * 0.8);
+    // background-color: $color-signup;
+    background-color: rgba(135, 206, 235, 0.75);
+    box-shadow: 0 5px 45px rgba(0, 0, 0, 0.15);
 
-    &.inputForm {
-      display: flex;
-      flex: 1 1 70%;
-      justify-content: center;
+    @extend .f-center-center;
+
+    & .box {
+      position: relative;
+      width: 50%;
+      height: 100%;
+      @extend .f-center-center;
       flex-direction: column;
 
-      .input.line {
-        display: flex;
-        width: 100%;
-        height: 100%;
+      & > h2 {
+        color: #fff;
+        font-size: 1.2em;
+        font-weight: 500;
+        margin-bottom: 10px;
       }
-      .input.line > label {
-        flex: 1 1 34%;
-        height: 100%;
-      }
-      .input.line > input {
-        flex: 1 1 66%;
-        height: 100%;
-      }
-      .input.label {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        border: 1px solid black;
-        border-right: none;
-        border-bottom: none;
-      }
-      .input.inputLogin {
-        border-bottom: none;
-      }
-      .input.line:last-of-type .input.label {
-        border-bottom: 1px solid black;
-      }
-      .input.line:last-of-type .input.inputLogin {
-        border-bottom: 1px solid black;
+
+      & > button {
+        cursor: pointer;
+        padding: 10px 20px;
+        background-color: #fff;
+        color: #333;
+        font-size: 16px;
+        font-weight: 500;
+        border: none;
+        border-radius: 10px;
       }
     }
   }
 
-  .input {
+  & > .formBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
     height: 100%;
+    background: #fff;
+    z-index: 1000;
+    @extend .f-center-center;
+    box-shadow: 0.5px 45px rgba(0, 0, 0, 0.05);
+    border-radius: $formBoxBorderRadiusList-default;
+    // border-radius: 15% 0 0 15%;
+    transition: 0.5s ease-in-out;
+
+    &.active {
+      left: 50%;
+      border-radius: $formBoxBorderRadiusList-active;
+    }
   }
+  // #endregion
+
+  // #region signIn
+
+  // #endregion
 }
+// #endregion
 </style>

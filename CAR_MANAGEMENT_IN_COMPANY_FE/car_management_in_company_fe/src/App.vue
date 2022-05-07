@@ -5,13 +5,14 @@
       <router-link to="/about">About</router-link>
     </nav> -->
     <TopMenu />
+    <section class="whiteSpace"></section>
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import TopMenu from "@/components/Login/TopMenu.vue";
+import TopMenu from "@/components/TopMenu/TopMenu.vue";
 
 export default Vue.extend({
   components: {
@@ -23,6 +24,15 @@ export default Vue.extend({
 <style lang="scss">
 @import "reset-css";
 
+// #region Css Variable
+:root {
+  --top-height: 7.5vh;
+}
+
+$topMenuHeight: var(--top-height);
+
+// #endregion
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -32,6 +42,10 @@ export default Vue.extend({
 
   display: block;
   height: 200vh;
+}
+
+.whiteSpace {
+  height: $topMenuHeight;
 }
 
 // nav {
