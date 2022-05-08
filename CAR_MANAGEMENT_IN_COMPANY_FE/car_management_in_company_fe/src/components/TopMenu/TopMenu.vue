@@ -3,9 +3,15 @@
     <section class="hamburgerSection">
       <div id="toggle" ref="toggle" @click="toggleHamburger"></div>
       <ul v-if="isToggle" ref="toggleSlideList" id="toggleSlideList">
-        <li v-once v-for="(item, idx) in toggleList" :key="idx">
-          <span>{{ item }}</span>
-        </li>
+        <router-link
+          :to="`/${item}`"
+          v-for="(item, idx) in toggleList"
+          :key="idx"
+        >
+          <!-- <span>{{ item }}</span> -->
+          <!-- <router-link :to="`/${item}`" tag="span">{{ item }}</router-link> -->
+          {{ item }}
+        </router-link>
       </ul>
     </section>
     <section class="menuSection">
@@ -26,6 +32,7 @@
         <span>로그인 중입니다</span>
       </div>
       <button v-else @click="callLoginForm()">Call Login Form</button>
+      <!-- <h2>미정구역</h2> -->
     </section>
   </nav>
 </template>
@@ -56,7 +63,7 @@ export default Vue.extend({
       this.isToggle = !this.isToggle;
     },
     getToggleList(): string[] {
-      let list = ["Home", "About", "FAQ"];
+      let list = ["Home", "about", "FAQ"];
       return list;
     },
     getMenuList(): string[] {

@@ -28,9 +28,7 @@ export default Vue.extend({
 :root {
   --top-height: 7.5vh;
 }
-
 $topMenuHeight: var(--top-height);
-
 // #endregion
 
 #app {
@@ -41,29 +39,10 @@ $topMenuHeight: var(--top-height);
   color: #2c3e50;
 
   display: block;
-  height: 200vh;
+  // height: 200vh;
 }
 
 .whiteSpace {
   height: $topMenuHeight;
 }
-
-// nav {
-//   padding: 30px;
-
-//   a {
-//     font-weight: bold;
-//     color: #2c3e50;
-
-//     &.router-link-exact-active {
-//       color: #42b983;
-//     }
-//   }
-
-//   .align-flex-center-center {
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//   }
-// }
 </style>
